@@ -10,15 +10,22 @@
     "ts-watch": "tsc --noEmit --incremental --watch"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
+    "@chakra-ui/react": "^2.6.0",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@fontsource/arvo": "^4.5.7",
+    "@fontsource/bayon": "^4.5.8",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
+    "framer-motion": "^10.12.4",
     "next": "13.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4",
-    "snarkyjs": "0.*"
+    "snarkyjs": "0.*",
+    "typescript": "5.0.4"
   }
 }
