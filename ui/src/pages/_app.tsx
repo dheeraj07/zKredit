@@ -4,6 +4,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 import { customTheme } from "@/utilities/theme";
 
+import "@/utilities/reactCOIServiceWorker";
+
 import "@/styles/globals.css";
 import "@fontsource/arvo/400.css";
 import "@fontsource/bayon/400.css";

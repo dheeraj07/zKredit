@@ -60,18 +60,13 @@ export default function Navbar() {
           </Link>
 
           <Flex
+            mr={12}
             display={{ base: "none", md: "flex" }}
             flex={{ base: 0, md: 2 }}
-            ml={12}
+            justify="flex-end"
           >
             <DesktopNav />
           </Flex>
-        </Flex>
-
-        <Flex flex={{ base: 2, md: 1 }} justify={"flex-end"} align="center">
-          <Button aria-label="Connect" colorScheme="primary">
-            Connect
-          </Button>
         </Flex>
       </Flex>
 
