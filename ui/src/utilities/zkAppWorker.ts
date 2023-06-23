@@ -5,6 +5,7 @@ import {
   fetchAccount,
   PrivateKey,
   Field,
+  Bool,
 } from "snarkyjs";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
@@ -81,6 +82,23 @@ const functions = {
 
   getReportHash: async (args: {}) => {
     return await state.zkapp!.reportHash.get();
+  },
+
+  verifyCreditData: async (args: {
+    creditScore: Field;
+    dataHashValue: Field;
+    isEligibleForLoan: Bool;
+  }) => {
+    console.log(args);
+    const txn = await Mina.transaction(() => {
+      state.zkapp!.verifyCreditData(
+        args.creditScore,
+        args.dataHashValue,
+        args.isEligibleForLoan
+      );
+    });
+    await txn.prove();
+    return txn.toJSON();
   },
 
   proveUpdateTransaction: async (args: {}) => {

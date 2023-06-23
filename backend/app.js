@@ -1,16 +1,25 @@
 const Koa = require("koa");
 const Router = require("@koa/router");
-const bodyParser = require('koa-bodyparser');
-const { isReady, PrivateKey, Field, Signature, CircuitString, Poseidon } = require("snarkyjs");
-const { CreditReport } = require('./Square.js');
+const bodyParser = require("koa-bodyparser");
+const cors = require("@koa/cors");
+const {
+  isReady,
+  PrivateKey,
+  Field,
+  Signature,
+  CircuitString,
+  Poseidon,
+} = require("snarkyjs");
+const { CreditReport } = require("./Square.js");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = new Koa();
 const router = new Router();
 const dataStore = {};
 
-app.use(bodyParser()); 
+app.use(cors());
+app.use(bodyParser());
 
 async function getSignedCreditScore(creditParam, public_key) {
   await isReady;
@@ -20,8 +29,7 @@ async function getSignedCreditScore(creditParam, public_key) {
       "EKF65JKw9Q1XWLDZyZNGysBbYG21QbJf3a4xnEoZPZ28LKYGMw53"
   );
 
-  const knownCreditScore = (creditParam) => (parseInt(creditParam, 10));
-
+  const knownCreditScore = (creditParam) => parseInt(creditParam, 10);
 
   if (dataStore.hasOwnProperty(public_key)) {
     const data = dataStore[public_key];
@@ -45,12 +53,15 @@ async function getSignedCreditScore(creditParam, public_key) {
   const hashValue = hashDetails(recreatedObj);
 
   return {
-    data: {creditScore: creditScore, hashValue: hashValue, isEligibleForLoan: isEligibleForLoan },
+    data: {
+      creditScore: creditScore,
+      hashValue: hashValue,
+      isEligibleForLoan: isEligibleForLoan,
+    },
     signature: signature,
-    publicKey: publicKey
+    publicKey: publicKey,
   };
 }
-
 
 async function recreateObject(publicKey) {
   if (dataStore.hasOwnProperty(publicKey)) {
@@ -67,14 +78,15 @@ async function recreateObject(publicKey) {
 }
 
 function hashDetails(cReport) {
- return Poseidon.hash(CreditReport.toFields(cReport));
+  return Poseidon.hash(CreditReport.toFields(cReport));
 }
 
-
 router.get("/creditscore/:public_key/:min_credit_score", async (ctx) => {
-  ctx.body = await getSignedCreditScore(ctx.params.min_credit_score, ctx.params.public_key);
+  ctx.body = await getSignedCreditScore(
+    ctx.params.min_credit_score,
+    ctx.params.public_key
+  );
 });
-
 
 /*
 app.use(async (ctx) => {
@@ -100,15 +112,19 @@ app.use(async (ctx) => {
 });
 */
 
-
-router.post('/store-data', async (ctx) => {
+router.post("/store-data", async (ctx) => {
   const { SSN_ID, USER_NAME, CREDIT_SCORE, PUBLIC_ADDRESS } = ctx.request.body;
-  dataStore[PUBLIC_ADDRESS] = { SSN_ID, USER_NAME, CREDIT_SCORE, PUBLIC_ADDRESS };
+  dataStore[PUBLIC_ADDRESS] = {
+    SSN_ID,
+    USER_NAME,
+    CREDIT_SCORE,
+    PUBLIC_ADDRESS,
+  };
 
   ctx.body = {
-    message: 'Data stored successfully',
+    message: "Data stored successfully",
   };
-  console.log(dataStore)
+  console.log(dataStore);
 });
 
 app.use(router.routes()).use(router.allowedMethods());

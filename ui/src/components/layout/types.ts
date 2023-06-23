@@ -9,8 +9,8 @@ export const NAV_ITEMS: Array<NavItem> = [
     link: "/generate-credit-proof",
   },
   {
-    label: "HOW IT WORKS",
-    link: "/how-it-works",
+    label: "VERIFY CREDIT ELIGIBILTITY",
+    link: "/verify-credit-eligibility",
   },
 ];
 

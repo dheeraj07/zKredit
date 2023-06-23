@@ -1,4 +1,4 @@
-import { fetchAccount, PublicKey, PrivateKey, Field } from "snarkyjs";
+import { fetchAccount, PublicKey, PrivateKey, Field, Bool } from "snarkyjs";
 
 import type {
   ZkappWorkerRequest,
@@ -48,6 +48,17 @@ export default class ZkappWorkerClient {
     return this._call("updateCreditData", { creditDataHash });
   }
 
+  verifyCreditData(
+    creditScore: Field,
+    dataHashValue: Field,
+    isEligibleForLoan: Bool
+  ) {
+    return this._call("verifyCreditData", {
+      creditScore,
+      dataHashValue,
+      isEligibleForLoan,
+    });
+  }
   getReportHash() {
     return this._call("getReportHash", {});
   }

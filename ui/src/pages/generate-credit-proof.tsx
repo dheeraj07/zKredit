@@ -228,6 +228,33 @@ export default function GenerateCreditProof() {
       duration: 5000,
       isClosable: true,
     });
+
+    fetch("http://localhost:3001/store-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(creditRawData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        toast({
+          title: "Data Stored on Waev",
+          description: `The Credit Score for address: ${minaAddress} has been stored on Waev.`,
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   async function handleFormSubmit(e: any) {
