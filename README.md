@@ -38,3 +38,6 @@ UI - React
 2. Nearly eliminates the risk of data breaches
 3. Lender doesn’t need to disclose their secret sauce model
 
+## Model
+
+![zKredit Model](https://github.com/shailesh-shenoy/zkredit/blob/main/ui/zKredit%20model.png)
